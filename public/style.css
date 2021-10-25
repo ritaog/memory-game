@@ -8,3 +8,18 @@
   padding: 0.5rem;
   border-radius: 2rem;
 }
+
+.game-icon-container {
+  background-color: rgb(0, 41, 128);
+  width: 7rem;
+  height: 7rem;
+  padding: 0.5rem;
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.game-icon {
+  fill: #fff;
+  width: 4.5rem;
+  height: 4.5rem;
+}

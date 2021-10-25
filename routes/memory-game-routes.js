@@ -1,12 +1,17 @@
 const express = require("express");
 
-const memoryGame = require("../model/memory-game.js");
+const memoryGameController = require("../model/memory-game-controller.js");
 
 const router = express.Router();
 
 router.get("/updateGameLevel", async (req, res) => {
-  const level = await memoryGame.gameLevel();
+  const level = await memoryGameController.viewGameLevel();
   res.send(level.toString());
+});
+
+router.get("/generateUniqueIcons", async (req, res) => {
+  const uniqueIcons = await memoryGameController.viewShuffledIcons();
+  res.json(uniqueIcons);
 });
 
 router.get("/", (request, response) => {

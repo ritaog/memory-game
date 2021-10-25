@@ -1,43 +1,80 @@
-const memoryGameData = require("./data.js");
+const iconExtensions = [
+  "adjust",
+  "aircraft",
+  "attachment",
+  "awareness-ribbon",
+  "calculator",
+  "camera",
+  "clapperboard",
+  "clear",
+  "creative-commons-noncommercial-us",
+  "dehaze",
+  "download",
+  "drink",
+  "eye",
+  "facebook",
+  "flow-tree",
+  "google-with-circle",
+  "hand",
+  "key",
+  "landline",
+  "leaf",
+  "light-bulb",
+  "linkedin-with-circle",
+  "lock",
+  "mail",
+  "map",
+  "menu",
+  "mixi",
+  "paypal",
+  "pinterest-with-circle",
+  "qq",
+  "save",
+  "signal",
+  "smashing",
+  "spotify-with-circle",
+  "suitcase",
+  "tv",
+  "twitter",
+  "user",
+  "vimeo",
+  "x",
+  "youtube",
+];
 
-let currentGameLevel = 0;
+const gameLevels = new Map([
+  [1, 8],
+  [2, 12],
+  [3, 16],
+  [4, 20],
+  [5, 24],
+  [6, 28],
+  [7, 32],
+  [8, 36],
+  [9, 40],
+  [10, 44],
+]);
 
-function updateGameLevel() {
-  currentGameLevel++;
+function getIconExtensions() {
+  return iconExtensions;
 }
 
-function gameLevel() {
-  return currentGameLevel;
+function getMapOfGameLevels() {
+  return gameLevels;
 }
 
-async function startGame() {
-  updateGameLevel();
+function generateRandomNumbers(elementSize) {
+  return Math.floor(Math.random() * elementSize);
 }
 
-function generateUniqueIcons() {
-  const newArr = [];
-  do {
-    const randNum = Math.floor(Math.random() * array.length);
-    let icon = array[randNum];
-    if (newArr.indexOf(icon) === -1) {
-      newArr.push(icon);
-    }
-  } while (newArr.length < 3);
-  return [...newArr, ...newArr];
+function shuffleUniqueIcons(icons) {
+  const newIcons = icons.slice();
+  return newIcons.sort(() => Math.random() - 0.5);
 }
 
-//html has to be entire html for each box, not just svg
-/*
-const html = `
-    <svg class = "box-icon">
-    <use xlink:href = "img/sprite.svg#icon-${extension}"
-    `;
-return html;
-
-*/
-startGame();
 module.exports = {
-  startGame,
-  updateGameLevel,
-  gameLevel,
+  getIconExtensions,
+  getMapOfGameLevels,
+  generateRandomNumbers,
+  shuffleUniqueIcons,
 };
