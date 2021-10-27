@@ -1,7 +1,8 @@
-const memoryGame = require("./memory-game.js");
+import * as memoryGame from "./memory-game.js";
 
-let currentGameLevel = 0;
+let currentGameLevel = 1;
 let shuffledIcons;
+let currentGameScore = 0;
 
 function updateGameLevel() {
   currentGameLevel++;
@@ -11,15 +12,28 @@ function viewGameLevel() {
   return currentGameLevel;
 }
 
+function incrementGameScore() {
+  currentGameScore += 10;
+}
+
+function decrementGameScore() {
+  currentGameScore -= 1;
+}
+
+async function viewGameScore() {
+  return currentGameScore;
+}
+
 function generateUniqueIcons(icons) {
   const uniqueIcons = [];
+
   const mapOfGameLevels = memoryGame.getMapOfGameLevels();
   const numOficons = mapOfGameLevels.get(currentGameLevel) / 2;
 
   do {
     const randNum = memoryGame.generateRandomNumbers(icons.length);
     let icon = icons[randNum];
-    if (uniqueIcons.indexOf(icon) === -1) {
+    if (!uniqueIcons.includes(icon)) {
       uniqueIcons.push(icon);
     }
   } while (uniqueIcons.length < numOficons);
@@ -37,17 +51,12 @@ function startGame() {
   shuffledIcons = generateUniqueIcons(allGameIcons);
 }
 
-//html has to be entire html for each box, not just svg
-/*
-const html = `
-    <svg class = "box-icon">
-    <use xlink:href = "img/sprite.svg#icon-${extension}"
-    `;
-return html;
-
-*/
 startGame();
-module.exports = {
+
+export {
   viewGameLevel,
   viewShuffledIcons,
+  incrementGameScore,
+  decrementGameScore,
+  viewGameScore,
 };

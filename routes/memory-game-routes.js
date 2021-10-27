@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 
-const memoryGameController = require("../model/memory-game-controller.js");
+import * as memoryGameController from "../model/memory-game-controller.js";
 
 const router = express.Router();
 
@@ -14,8 +14,22 @@ router.get("/generateUniqueIcons", async (req, res) => {
   res.json(uniqueIcons);
 });
 
+router.get("/incrementGameScore", async (req, res) => {
+  memoryGameController.incrementGameScore();
+  const newGameScore = await memoryGameController.viewGameScore();
+  res.send(newGameScore.toString());
+  //console.log(newGameScore);
+});
+
+router.get("/decrementGameScore", async (req, res) => {
+  memoryGameController.decrementGameScore();
+  const newGameScore = await memoryGameController.viewGameScore();
+  res.send(newGameScore.toString());
+  //console.log(newGameScore);
+});
+
 router.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });
 
-module.exports = router;
+export default router;

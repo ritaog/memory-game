@@ -72,7 +72,7 @@ function shuffleUniqueIcons(icons) {
   return newIcons.sort(() => Math.random() - 0.5);
 }
 
-module.exports = {
+export {
   getIconExtensions,
   getMapOfGameLevels,
   generateRandomNumbers,
