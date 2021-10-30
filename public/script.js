@@ -1,3 +1,6 @@
+let iconsToCompare = [];
+//let iconsAreIdentical = true;
+
 async function displayGameLevelOnPage() {
   const response = await fetch("/updateGameLevel");
 
@@ -13,31 +16,72 @@ async function displayIconsOnPage() {
 
   icons.forEach((icon) => {
     const html = `
-    <div class="game-icon-container">
+  <div class="icon-container">
+
+    <div class="back-icon ">
+      
         <svg class = "game-icon">
           <use class="game-icon__link" xlink:href = "img/sprite.svg#icon-${icon}"></use>
         </svg>
+        
+    </div>
+    
+ 
+    <div class="front-icon ">
+    
+        <svg class = "game-icon">
+          <use class="game-icon__link" xlink:href = "img/sprite.svg#icon-help"></use>
+        </svg>
       </div>
+    
+  </div>  
+  
     `;
 
-    document.querySelector(".container").insertAdjacentHTML("afterbegin", html);
+    document
+      .querySelector(".main-container")
+      .insertAdjacentHTML("beforeend", html);
   });
 }
 
-/*
-
-function implementGameScore() {
-  document.querySelector(".container").addEventListener("click", handler);
-  const iconContainer = e.target.closest(".game-icon-container");
-
-  if (!iconContainer) return;
+async function compareIcons(icons) {
+  const [firstString, secondString] = icons;
+  if (firstString === secondString) {
+    const response = await fetch("/incrementGameScore");
+    const incrementedScore = await response.text();
+    console.log(incrementedScore);
+  } else {
+    const response = await fetch("/decrementGameScore");
+    const decrementedScore = await response.text();
+    console.log(decrementedScore);
+  }
 }
 
-//function handler() {}
-*/
+document.querySelector(".main-container").addEventListener("click", (e) => {
+  const iconContainer = e.target.closest(".front-icon");
+
+  if (!iconContainer) return;
+
+  const iconLink = iconContainer.firstElementChild.firstElementChild;
+
+  const [firstString, secondString] = iconLink.href.baseVal.split("#");
+
+  iconsToCompare.push(secondString);
+
+  if (iconsToCompare.length < 2) return;
+
+  const copyOfIcons = iconsToCompare.splice(0, 2);
+  compareIcons(copyOfIcons);
+});
+
 displayGameLevelOnPage();
 displayIconsOnPage();
 
 /*
-document.querySelector(".game-icons").href.baseVal.split("#")[1];
+<div class="icon-container">
+  <div class="back-icon icon-same"></div>
+
+  <div class="front-icon icon-same"></div>
+</div>;
+
 */

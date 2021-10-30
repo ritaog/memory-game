@@ -1,6 +1,6 @@
 import * as memoryGame from "./memory-game.js";
 
-let currentGameLevel = 1;
+let currentGameLevel = 0;
 let shuffledIcons;
 let currentGameScore = 0;
 

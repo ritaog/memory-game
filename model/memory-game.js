@@ -6,7 +6,7 @@ const iconExtensions = [
   "calculator",
   "camera",
   "clapperboard",
-  "clear",
+
   "creative-commons-noncommercial-us",
   "dehaze",
   "download",
@@ -38,7 +38,7 @@ const iconExtensions = [
   "twitter",
   "user",
   "vimeo",
-  "x",
+
   "youtube",
 ];
 
