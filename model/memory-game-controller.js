@@ -1,17 +1,20 @@
 import * as memoryGame from "./memory-game.js";
 
-let currentGameLevel = 0;
+let currentGameLevel = 1;
 let shuffledIcons;
 let currentGameScore = 0;
-
-function updateGameLevel() {
+/*
+async function updateGameLevel() {
   currentGameLevel++;
-}
-
-function viewGameLevel() {
   return currentGameLevel;
 }
+*/
 
+/*
+async function viewGameLevel() {
+  return currentGameLevel;
+}
+*/
 function incrementGameScore() {
   currentGameScore += 10;
 }
@@ -42,21 +45,33 @@ function generateUniqueIcons(icons) {
 }
 
 function viewShuffledIcons() {
+  const allGameIcons = memoryGame.getIconExtensions();
+  shuffledIcons = generateUniqueIcons(allGameIcons);
   return shuffledIcons;
 }
 
-function startGame() {
-  updateGameLevel();
-  const allGameIcons = memoryGame.getIconExtensions();
-  shuffledIcons = generateUniqueIcons(allGameIcons);
+function updateGameLevel() {
+  currentGameLevel++;
 }
 
-startGame();
+async function viewGameLevel() {
+  return currentGameLevel;
+}
+
+//function initializeGame() {
+// updateGameLevel();
+//const allGameIcons = memoryGame.getIconExtensions();
+// shuffledIcons = generateUniqueIcons(allGameIcons);
+//}
+
+//initializeGame();
 
 export {
-  viewGameLevel,
+  // viewGameLevel,
   viewShuffledIcons,
   incrementGameScore,
   decrementGameScore,
   viewGameScore,
+  viewGameLevel,
+  updateGameLevel,
 };
