@@ -4,9 +4,20 @@ import * as memoryGameController from "../model/memory-game-controller.js";
 
 const router = express.Router();
 
-router.get("/updateGameLevel", async (req, res) => {
-  const level = await memoryGameController.viewGameLevel();
-  res.send(level.toString());
+router.get("/viewGameLevel", async (req, res) => {
+  const currentLevel = await memoryGameController.viewGameLevel();
+  res.send(currentLevel.toString());
+});
+
+router.get("/updateGameLevel", (req, res) => {
+  memoryGameController.updateGameLevel();
+  const newLevel = memoryGameController.viewGameLevel();
+  res.send(newLevel.toString());
+});
+
+router.get("/viewGameScore", async (req, res) => {
+  const score = await memoryGameController.viewGameScore();
+  res.send(score.toString());
 });
 
 router.get("/generateUniqueIcons", async (req, res) => {
@@ -18,16 +29,18 @@ router.get("/incrementGameScore", async (req, res) => {
   memoryGameController.incrementGameScore();
   const newGameScore = await memoryGameController.viewGameScore();
   res.send(newGameScore.toString());
-  //console.log(newGameScore);
 });
 
 router.get("/decrementGameScore", async (req, res) => {
   memoryGameController.decrementGameScore();
   const newGameScore = await memoryGameController.viewGameScore();
   res.send(newGameScore.toString());
-  //console.log(newGameScore);
 });
-
+/*
+router.get("/startNewGame", async (req, res) => {
+  memoryGameController.updateGameLevel();
+});
+*/
 router.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });

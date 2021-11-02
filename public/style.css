@@ -1,31 +1,83 @@
-* {
+:root {
+  --light-cyan: hsl(184, 60%, 12%);
+  --medium-cyan: hsl(184, 100%, 22%);
+  --dark-cyan: hsl(179, 100%, 13%);
+  --light-grey: #ccc;
+  --shadow-small: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+
+  --shadow-large: 0 15px 20px rgba(0, 0, 0, 0.438),
+    0 8px 8px rgba(0, 0, 0, 0.521);
+}
+
+html {
   box-sizing: border-box;
 }
 
-.game-level {
-  background-color: rgb(0, 41, 128);
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  background-color: var(--dark-cyan);
+  color: var(--light-grey);
+  font-size: 1.5rem;
+}
+
+.nav-bar {
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 4rem;
+  border-bottom: solid 1px var(--light-grey);
+}
+
+.btn {
+  background-color: var(--medium-cyan);
   color: #fff;
-  font-size: 2rem;
-  width: 10rem;
+  width: 8rem;
   text-align: center;
-  text-transform: uppercase;
-  padding: 0.5rem;
-  border-radius: 2rem;
+  font-size: 2rem;
+  padding: 0.2rem;
+  border-radius: 0.8rem;
   margin-right: 3rem;
   margin-bottom: 3px;
+  box-shadow: var(--shadow-small);
+  border: none;
+}
+
+.btn-help {
+  color: inherit;
+  font-size: 1.3rem;
+  width: 6rem;
+}
+
+.level-container,
+.score-container {
+  display: flex;
+}
+
+.level,
+.score {
+  margin-right: 1rem;
 }
 
 .main-container {
   display: flex;
   flex-wrap: wrap;
-
-  background-color: rgba(128, 128, 128, 0.144);
+  border-radius: 5px;
+  background-color: var(--medium-cyan);
   max-width: 60rem;
   margin: 0 auto;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   padding-left: 5.5rem;
   padding-right: 0.5rem;
+  box-shadow: var(--shadow-large);
 }
 
 .icon-container {
@@ -33,9 +85,9 @@
   align-items: center;
   justify-content: center;
 
-  background-color: orangered;
+  /*background-color: orangered;*/
   position: relative;
-  height: 5.5rem;
+  height: 6rem;
   margin-right: 5px;
 
   padding: 5px;
@@ -45,7 +97,7 @@
 
 .front-icon,
 .back-icon {
-  background-color: rgb(0, 41, 128);
+  background-color: var(--dark-cyan);
   margin-right: 3rem;
   border-radius: 1.5rem;
   text-align: center;
@@ -55,10 +107,21 @@
   padding: 0.6rem 0;
   height: 5rem;
   width: 12rem;
+  box-shadow: var(--shadow-small);
 }
 
 .game-icon {
-  fill: #fff;
+  fill: var(--light-grey);
   width: 3.5rem;
   height: 3.5rem;
+}
+
+.icon-covering {
+  display: none;
+  opacity: 0;
+}
+
+.icon-open {
+  display: block;
+  opacity: 1;
 }
