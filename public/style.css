@@ -50,6 +50,11 @@ body {
   border: none;
 }
 
+.btn-next {
+  width: 15rem;
+  padding: 0.5rem;
+}
+
 .btn-help {
   color: inherit;
   font-size: 1.3rem;
@@ -124,4 +129,83 @@ body {
 .icon-open {
   display: block;
   opacity: 1;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+
+  background-color: white;
+  padding: 2rem 6rem;
+  border-radius: 5px;
+  box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.show-modal:active,
+.show-modal:hover,
+.show-modal:focus {
+  border: none;
+  outline: none;
+}
+
+.close-modal {
+  position: absolute;
+  top: 1.2rem;
+  right: 2rem;
+  font-size: 5rem;
+  color: #333;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+p {
+  font-size: 1.8rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.next-game {
+  border-top: solid 1px #bbb;
+  padding: 0.5rem;
+  margin-top: 2rem;
+}
+
+.progress-board {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+}
+
+.level-board {
+  display: flex;
+  flex-direction: column;
+}
+
+.score-board {
+  display: flex;
+  flex-direction: column;
 }

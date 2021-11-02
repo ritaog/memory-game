@@ -1,14 +1,22 @@
+//variables
+const modal = document.querySelector(".modal");
+const overlay = document.querySelector(".overlay");
+const btnCloseModal = document.querySelector(".close-modal");
+const btnsOpenModal = document.querySelectorAll(".show-modal");
+
 let iconsToCompare = [];
 let iconContainers = [];
 
-const scoreElement = document.querySelector(".score-num");
+const scoreElement = document.querySelectorAll(".score-num");
 
 async function displayGameLevelOnPage() {
   const response = await fetch("/viewGameLevel");
 
   const level = await response.text();
 
-  document.querySelector(".level-num").textContent = level;
+  Array.from(document.querySelectorAll(".level-num")).forEach(
+    (el) => (el.textContent = level)
+  );
 }
 
 async function incrementGameLevel() {
@@ -22,7 +30,9 @@ async function incrementGameLevel() {
 async function displayScoreOnPage() {
   const response = await fetch("/viewGameScore");
   const score = await response.text();
-  document.querySelector(".score-num").textContent = score;
+  Array.from(document.querySelectorAll(".score-num")).forEach(
+    (el) => (el.textContent = score)
+  );
 }
 
 async function displayIconsOnPage() {
@@ -102,15 +112,39 @@ document
     }
   });
 
+//////////////////////////////////////////////////
+//////////////// MODAL ////////////////////////
+
+//handles closing of popup and overlay
+function hidePopup() {
+  modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+  //modal.style.display = 'none';
+  //overlay.style.display = 'none';
+}
+
+//click event on button to hide popup
+btnCloseModal.addEventListener("click", hidePopup);
+
+//click event on overlay to hide popup
+overlay.addEventListener("click", hidePopup);
+
+//keypress event to hide popup
+document.addEventListener("keydown", (event) => {
+  //if the escape key is pressed and the popup is visible
+  if (event.key === "Escape" && !modal.classList.contains("hidden"))
+    hidePopup();
+});
+
 displayGameLevelOnPage();
 displayScoreOnPage();
 displayIconsOnPage();
 
 function startGame() {
   document.querySelector(".main-container").innerHTML = "";
+  hidePopup();
   incrementGameLevel();
   displayIconsOnPage();
-  //displayGameLevelOnPage();
   displayScoreOnPage();
 }
 
