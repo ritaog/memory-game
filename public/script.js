@@ -2,17 +2,18 @@
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".close-modal");
-const btnsOpenModal = document.querySelectorAll(".show-modal");
 
 let iconsToCompare = [];
 let iconContainers = [];
+let allIconFrontContainer = [];
+let level;
 
 const scoreElement = document.querySelectorAll(".score-num");
 
 async function displayGameLevelOnPage() {
   const response = await fetch("/viewGameLevel");
 
-  const level = await response.text();
+  level = await response.text();
 
   Array.from(document.querySelectorAll(".level-num")).forEach(
     (el) => (el.textContent = level)
@@ -21,9 +22,6 @@ async function displayGameLevelOnPage() {
 
 async function incrementGameLevel() {
   const response = await fetch("/updateGameLevel");
-
-  //const newScore = await response;
-  console.log("Game level has been updated");
   displayGameLevelOnPage();
 }
 
@@ -39,8 +37,7 @@ async function displayIconsOnPage() {
   const response = await fetch("/generateUniqueIcons");
 
   const icons = await response.json();
-  console.log(icons.length);
-  console.log(icons);
+
   icons.forEach((icon) => {
     const html = `
   <div class="icon-container">
@@ -64,6 +61,11 @@ async function displayIconsOnPage() {
     document
       .querySelector(".main-container")
       .insertAdjacentHTML("beforeend", html);
+
+    const frontIcon =
+      document.querySelector(".main-container").lastElementChild
+        .lastElementChild;
+    allIconFrontContainer.push(frontIcon);
   });
 }
 
@@ -98,6 +100,11 @@ document
       const incrementedScore = await response.text();
       scoreElement.textContent = incrementedScore;
       displayScoreOnPage();
+      document.querySelector(".former-game-level").textContent = level;
+      const gameIsFinished = allIconFrontContainer.every((div) =>
+        div.classList.contains("icon-covering")
+      );
+      if (gameIsFinished) showPopup();
     } else {
       const response = await fetch("/decrementGameScore");
       const decrementedScore = await response.text();
@@ -114,6 +121,13 @@ document
 
 //////////////////////////////////////////////////
 //////////////// MODAL ////////////////////////
+//handles showing of popup and overlay
+function showPopup() {
+  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+  // modal.style.display = 'block';
+  // overlay.style.display = 'block';
+}
 
 //handles closing of popup and overlay
 function hidePopup() {
