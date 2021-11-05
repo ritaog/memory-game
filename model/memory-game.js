@@ -24,7 +24,6 @@ const iconExtensions = [
   "lock",
   "mail",
   "map",
-  "menu",
   "mixi",
   "paypal",
   "pinterest-with-circle",

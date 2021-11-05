@@ -3,18 +3,7 @@ import * as memoryGame from "./memory-game.js";
 let currentGameLevel = 1;
 let shuffledIcons;
 let currentGameScore = 0;
-/*
-async function updateGameLevel() {
-  currentGameLevel++;
-  return currentGameLevel;
-}
-*/
 
-/*
-async function viewGameLevel() {
-  return currentGameLevel;
-}
-*/
 function incrementGameScore() {
   currentGameScore += 10;
 }
@@ -58,16 +47,7 @@ async function viewGameLevel() {
   return currentGameLevel;
 }
 
-//function initializeGame() {
-// updateGameLevel();
-//const allGameIcons = memoryGame.getIconExtensions();
-// shuffledIcons = generateUniqueIcons(allGameIcons);
-//}
-
-//initializeGame();
-
 export {
-  // viewGameLevel,
   viewShuffledIcons,
   incrementGameScore,
   decrementGameScore,
