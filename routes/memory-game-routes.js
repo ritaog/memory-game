@@ -1,17 +1,22 @@
 import express from "express";
-
 import * as memoryGameController from "../model/memory-game-controller.js";
 
 const router = express.Router();
+
+router.get("/gameInstructions", (req, res) => {
+  const message = ` Match two icons and earn 10 points; lose 1 point for any mismatched pair`;
+
+  res.send(message.toString());
+});
 
 router.get("/viewGameLevel", async (req, res) => {
   const currentLevel = await memoryGameController.viewGameLevel();
   res.send(currentLevel.toString());
 });
 
-router.get("/updateGameLevel", (req, res) => {
+router.get("/updateGameLevel", async (req, res) => {
   memoryGameController.updateGameLevel();
-  const newLevel = memoryGameController.viewGameLevel();
+  const newLevel = await memoryGameController.viewGameLevel();
   res.send(newLevel.toString());
 });
 
@@ -36,11 +41,7 @@ router.get("/decrementGameScore", async (req, res) => {
   const newGameScore = await memoryGameController.viewGameScore();
   res.send(newGameScore.toString());
 });
-/*
-router.get("/startNewGame", async (req, res) => {
-  memoryGameController.updateGameLevel();
-});
-*/
+
 router.get("/", (request, response) => {
   response.sendFile(__dirname + "/index.html");
 });
