@@ -2,13 +2,15 @@
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".close-modal");
+const scoreElement = document.querySelectorAll(".score-num");
+const instructionContainer = document.querySelector(".instruction");
 
 let iconsToCompare = [];
 let iconContainers = [];
-let allIconFrontContainer = [];
+//let allIconFrontContainer = [];
 let level;
-
-const scoreElement = document.querySelectorAll(".score-num");
+let count = 0;
+let expectedMatchedPairs;
 
 async function displayGameLevelOnPage() {
   const response = await fetch("/viewGameLevel");
@@ -37,7 +39,7 @@ async function displayIconsOnPage() {
   const response = await fetch("/generateUniqueIcons");
 
   const icons = await response.json();
-
+  expectedMatchedPairs = icons.length / 2;
   icons.forEach((icon) => {
     const html = `
   <div class="icon-container">
@@ -55,17 +57,10 @@ async function displayIconsOnPage() {
       </div>
     
   </div>  
-  
     `;
-
     document
       .querySelector(".main-container")
       .insertAdjacentHTML("beforeend", html);
-
-    const frontIcon =
-      document.querySelector(".main-container").lastElementChild
-        .lastElementChild;
-    allIconFrontContainer.push(frontIcon);
   });
 }
 
@@ -100,11 +95,9 @@ document
       const incrementedScore = await response.text();
       scoreElement.textContent = incrementedScore;
       displayScoreOnPage();
+      count++;
       document.querySelector(".former-game-level").textContent = level;
-      const gameIsFinished = allIconFrontContainer.every((div) =>
-        div.classList.contains("icon-covering")
-      );
-      if (gameIsFinished) showPopup();
+      expectedMatchedPairs === count ? showPopup() : "";
     } else {
       const response = await fetch("/decrementGameScore");
       const decrementedScore = await response.text();
@@ -119,22 +112,25 @@ document
     }
   });
 
+async function loadGameInstructions() {
+  const response = await fetch("/gameInstructions");
+  const instructions = await response.text();
+
+  document.querySelector(".para").textContent = instructions;
+}
+
 //////////////////////////////////////////////////
 //////////////// MODAL ////////////////////////
 //handles showing of popup and overlay
 function showPopup() {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
-  // modal.style.display = 'block';
-  // overlay.style.display = 'block';
 }
 
 //handles closing of popup and overlay
 function hidePopup() {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
-  //modal.style.display = 'none';
-  //overlay.style.display = 'none';
 }
 
 //click event on button to hide popup
@@ -150,12 +146,27 @@ document.addEventListener("keydown", (event) => {
     hidePopup();
 });
 
+//help-button event listener
+
+document.querySelector(".btn-help").addEventListener("click", () => {
+  instructionContainer.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+});
+
+document.querySelector(".close-instruction").addEventListener("click", () => {
+  instructionContainer.classList.add("hidden");
+  overlay.classList.add("hidden");
+});
+
 displayGameLevelOnPage();
 displayScoreOnPage();
 displayIconsOnPage();
+loadGameInstructions();
 
 function startGame() {
+  count = 0;
   document.querySelector(".main-container").innerHTML = "";
+
   hidePopup();
   incrementGameLevel();
   displayIconsOnPage();
