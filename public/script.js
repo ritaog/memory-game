@@ -7,7 +7,6 @@ const instructionContainer = document.querySelector(".instruction");
 
 let iconsToCompare = [];
 let iconContainers = [];
-//let allIconFrontContainer = [];
 let level;
 let count = 0;
 let expectedMatchedPairs;
@@ -18,7 +17,7 @@ async function displayGameLevelOnPage() {
   level = await response.text();
 
   Array.from(document.querySelectorAll(".level-num")).forEach(
-    (el) => (el.textContent = level)
+    el => (el.textContent = level)
   );
 }
 
@@ -27,20 +26,12 @@ async function incrementGameLevel() {
   displayGameLevelOnPage();
 }
 
-async function displayScoreOnPage() {
-  const response = await fetch("/viewGameScore");
-  const score = await response.text();
-  Array.from(document.querySelectorAll(".score-num")).forEach(
-    (el) => (el.textContent = score)
-  );
-}
-
 async function displayIconsOnPage() {
   const response = await fetch("/generateUniqueIcons");
 
   const icons = await response.json();
   expectedMatchedPairs = icons.length / 2;
-  icons.forEach((icon) => {
+  icons.forEach(icon => {
     const html = `
   <div class="icon-container">
 
@@ -64,53 +55,59 @@ async function displayIconsOnPage() {
   });
 }
 
-document
-  .querySelector(".main-container")
-  .addEventListener("click", async (e) => {
-    const frontIconContainer = e.target.closest(".front-icon");
+async function displayScoreOnPage() {
+  const response = await fetch("/viewGameScore");
+  const score = await response.text();
+  Array.from(document.querySelectorAll(".score-num")).forEach(
+    el => (el.textContent = score)
+  );
+}
 
-    if (!frontIconContainer) return;
+document.querySelector(".main-container").addEventListener("click", async e => {
+  const frontIconContainer = e.target.closest(".front-icon");
 
-    const backIconContainer = frontIconContainer.previousElementSibling;
+  if (!frontIconContainer) return;
 
-    iconContainers.push({
-      first: frontIconContainer,
-      second: backIconContainer,
-    });
+  const backIconContainer = frontIconContainer.previousElementSibling;
 
-    frontIconContainer.classList.add("icon-covering");
-    if (iconContainers.length < 2) return;
-
-    const iconsToCompare = iconContainers.splice(0, 2);
-
-    const iconStrings = iconsToCompare.map((iconLink) => {
-      const element = iconLink.second.firstElementChild.firstElementChild;
-      return element.href.baseVal.split("#")[1];
-    });
-
-    const [firstString, secondString] = iconStrings;
-
-    if (firstString === secondString) {
-      const response = await fetch("/incrementGameScore");
-      const incrementedScore = await response.text();
-      scoreElement.textContent = incrementedScore;
-      displayScoreOnPage();
-      count++;
-      document.querySelector(".former-game-level").textContent = level;
-      expectedMatchedPairs === count ? showPopup() : "";
-    } else {
-      const response = await fetch("/decrementGameScore");
-      const decrementedScore = await response.text();
-      scoreElement.textContent = decrementedScore;
-
-      iconsToCompare.forEach((iconLink) => {
-        setTimeout(() => {
-          iconLink.first.classList.remove("icon-covering");
-        }, 800);
-      });
-      displayScoreOnPage();
-    }
+  iconContainers.push({
+    first: frontIconContainer,
+    second: backIconContainer,
   });
+
+  frontIconContainer.classList.add("icon-covering");
+  if (iconContainers.length < 2) return;
+
+  const iconsToCompare = iconContainers.splice(0, 2);
+
+  const iconStrings = iconsToCompare.map(iconLink => {
+    const element = iconLink.second.firstElementChild.firstElementChild;
+    return element.href.baseVal.split("#")[1];
+  });
+
+  const [firstString, secondString] = iconStrings;
+
+  if (firstString === secondString) {
+    const response = await fetch("/incrementGameScore");
+    const incrementedScore = await response.text();
+    scoreElement.textContent = incrementedScore;
+    displayScoreOnPage();
+    count++;
+    document.querySelector(".former-game-level").textContent = level;
+    expectedMatchedPairs === count ? showPopup() : "";
+  } else {
+    const response = await fetch("/decrementGameScore");
+    const decrementedScore = await response.text();
+    scoreElement.textContent = decrementedScore;
+
+    iconsToCompare.forEach(iconLink => {
+      setTimeout(() => {
+        iconLink.first.classList.remove("icon-covering");
+      }, 800);
+    });
+    displayScoreOnPage();
+  }
+});
 
 async function loadGameInstructions() {
   const response = await fetch("/gameInstructions");
@@ -140,7 +137,7 @@ btnCloseModal.addEventListener("click", hidePopup);
 overlay.addEventListener("click", hidePopup);
 
 //keypress event to hide popup
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", event => {
   //if the escape key is pressed and the popup is visible
   if (event.key === "Escape" && !modal.classList.contains("hidden"))
     hidePopup();
