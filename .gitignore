@@ -5,6 +5,8 @@
 **/jspm_packages/
 **/logs/
 **/node_modules/
+**/dist/
+**/functions/
 **/pids/
 **/typings/
 **/.npm/
